@@ -19,10 +19,14 @@ client = OpenAI(api_key=OPENAI_API_KEY)
 
 # ================= APP =================
 app = FastAPI(title="CityGuardian – Agentic Civic AI")
-
+origins=[
+    "https://city-guardian-n8n-integration.vercel.app/",
+    "https://city-guardian-n8n-integration.vercel.app",
+    "http://127.0.0.1:5500",
+]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://127.0.0.1:5500"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -340,3 +344,4 @@ async def send_report(
 @app.get("/")
 def health():
     return {"status": "CityGuardian backend running"}
+
