@@ -1,0 +1,17 @@
+# --- Backend (FastAPI & Agentic AI) ---
+fastapi
+uvicorn
+python-multipart
+openai
+python-dotenv
+requests
+
+# --- Data & Analytics (Streamlit Dashboard) ---
+streamlit
+pandas
+plotly
+
+# --- Google Sheets Support (Optional but Recommended) ---
+# Add these if you decided to use the "GSpread" professional method
+gspread
+oauth2client
