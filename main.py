@@ -128,6 +128,12 @@ Complaint Description:
 
 Location:
 {location}
+
+End exactly with:
+    Thank you,
+    {name}
+    {email}
+    Reported Location: {location}
 """
 
     r = client.chat.completions.create(
@@ -348,6 +354,7 @@ async def send_report(
 @app.get("/")
 def health():
     return {"status": "CityGuardian backend running"}
+
 
 
 
