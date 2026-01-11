@@ -289,7 +289,8 @@ async def send_report(
         "issue": complaint,
         "category": classification['category'],
         "urgency": classification['urgency'],
-        "location": loc_display
+        "location": loc_display,
+        "Status": "Pending"
     }
 
     # 3. Trigger n8n Workflow
@@ -354,6 +355,7 @@ async def send_report(
 @app.get("/")
 def health():
     return {"status": "CityGuardian backend running"}
+
 
 
 
