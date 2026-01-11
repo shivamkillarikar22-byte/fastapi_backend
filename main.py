@@ -107,7 +107,7 @@ def drafting_agent(name, email, complaint, location, category, urgency):
     prompt = f"""
 You are an AI assistant writing official municipal emails.
 
-Write a detailed, professional civic complaint email.
+Write a detailed, professional civic complaint email to the secretary of the department.
 
 Rules:
 - Minimum 3 paragraphs
@@ -258,6 +258,7 @@ async def send_report(
     complaint: str = Form(...),
     latitude: float = Form(...),
     longitude: float = Form(...),
+    address: str = Form(...),
     image: UploadFile = File(None),
 ):
     attachment = None
@@ -270,7 +271,10 @@ async def send_report(
         }
 
     classification = classification_agent(complaint)
-    report_id = str(uuid.uuid4())[:8] # Short unique ID
+    report_id = str(uuid.uuid4())[:8]
+    loc_display = address if address else f"{latitude}, {longitude}"
+    google_maps_link = f"https://www.google.com/maps?q={latitude},{longitude}" # Standard link format
+    full_location_info = f"{loc_display}\nMaps Link: {google_maps_link}"# Short unique ID
     n8n_data = {
         "ID": report_id,
         "Date": datetime.now().strftime("%Y-%m-%d %H:%M"),
@@ -279,7 +283,7 @@ async def send_report(
         "issue": complaint,
         "category": classification['category'],
         "urgency": classification['urgency'],
-        "location": f"{latitude}, {longitude}"
+        "location": loc_display
     }
 
     # 3. Trigger n8n Workflow
@@ -313,7 +317,7 @@ async def send_report(
     name=name,
     email=email,
     complaint=complaint,
-    location=location_text,
+    location=full_location_info,
     category=classification["category"],
     urgency=classification["urgency"]
 )
@@ -344,4 +348,5 @@ async def send_report(
 @app.get("/")
 def health():
     return {"status": "CityGuardian backend running"}
+
 
