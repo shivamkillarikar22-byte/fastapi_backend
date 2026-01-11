@@ -289,7 +289,7 @@ async def send_report(
         "issue": complaint,
         "category": classification['category'],
         "urgency": classification['urgency'],
-        "location": loc_display,
+        "location": f"{latitude},{longitude}",
         "Status": "Pending"
     }
 
@@ -355,6 +355,7 @@ async def send_report(
 @app.get("/")
 def health():
     return {"status": "CityGuardian backend running"}
+
 
 
 
