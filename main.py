@@ -344,7 +344,7 @@ async def send_report(
     send_email_maileroo(
         subject="Civic Complaint Report (AI Routed)",
         body=email_body,
-        to_email=routed_email["email"],
+        to_email=routed_email,
         attachment=attachment
     )
 
@@ -359,13 +359,14 @@ async def send_report(
         "id": report_id,
         "department": department_name,
         "urgency": classification["urgency"],
-        "routed_email": routed_email["email"]
+        "routed_email": routed_email
     }
 
 
 @app.get("/")
 def health():
     return {"status": "CityGuardian backend running"}
+
 
 
 
