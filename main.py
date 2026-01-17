@@ -190,6 +190,12 @@ You are an AI routing agent.
 Complaint category: {category}
 Location: {location}
 
+OFFICIAL DEPARTMENTS:
+    - Water Supply: shivamkillarikar007@gmail.com (Leaks, pipes, no water)
+    - Sewage & Drainage: shivamkillarikar22@gmail.com (Drainage, gutters, overflow)
+    - Roads & Traffic: aishanidolan@gmail.com (Potholes, signals, roads)
+    - Electricity: adityakillarikar@gmail.com (Power cut, street lights, wires)
+    
 Available officers (USE ONLY THESE):
 {OFFICERS}
 
@@ -311,14 +317,19 @@ async def send_report(
         department_name = dept["name"]
         routing_reason = f"Matched {score} keywords"
     else:
-        routed_email = DEFAULT_EMAIL
-        department_name = "General Grievance Cell"
-        routing_reason = "No strong keyword match"
-
-    routing = routing_agent(
+        routing = routing_agent(
         classification["category"],
         location_text
-    )
+        )
+        routed_email = routing["email"]
+        department_name = routing["name"]
+        #department_name = "General Grievance Cell"
+        routing_reason = "No strong keyword match"
+
+   # routing = routing_agent(
+    #    classification["category"],
+      #  location_text
+    #)
 
     email_body = drafting_agent(
     name=name,
@@ -333,7 +344,7 @@ async def send_report(
     send_email_maileroo(
         subject="Civic Complaint Report (AI Routed)",
         body=email_body,
-        to_email=routing["email"],
+        to_email=routed["email"],
         attachment=attachment
     )
 
@@ -355,6 +366,7 @@ async def send_report(
 @app.get("/")
 def health():
     return {"status": "CityGuardian backend running"}
+
 
 
 
